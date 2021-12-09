@@ -48,24 +48,21 @@ end
         warning('myPID_v4:TooMuchTimeWithoutSample','Too much time since the last sample, resetting integral action')
         Ie_old=0;
     end
-    if (time_y-time_y_old(1))>minTimeBetweenSamplesforIntegralCorrection && (time_y-time_y_old(1))<maxTimeBetweenSamplesforIntegral
-        warning('myPID_v4:LongTimeBetweenSamples','Long time since the last sample: adjusting integral action')
-        Ie_old=Ie_old+0.5*(y-y_old)*(time_y-time_y_old(1));
+    
+    Ie = Ie_old+(ref-0.5*y_old-0.5*y)*(time_y-time_y_old(1));
+    Ie = min(Ie,controller_paramters.e_max);
+    Ie = max(Ie,controller_paramters.e_min);
         
-        Ie_old=min(Ie_old,controller_paramters.e_max);
-        Ie_old=max(Ie_old,controller_paramters.e_min);
+    if  (time_y-time_y_old(1))>=maxTimeBetweenSamplesforIntegral
+        Ie = 0;
     end
 
-    I=controller_paramters.Ki*Ie_old;            %[mg/min]
-    % Integral of the error
-        Ie=Ie_old+(ref-y)*controller_paramters.Ts; %[(mg/dl)*min]
+    I = controller_paramters.Ki*Ie;            %[mg/min]
     
     % AntiWind-up
-        Ie=min(Ie,controller_paramters.e_max);
-        Ie=max(Ie,controller_paramters.e_min);
+    Ie = min(Ie, controller_paramters.e_max);
+    Ie = max(Ie, controller_paramters.e_min);
 
-%     I=controller_paramters.Ki*Ie;            %[mg/min]
-    
 %% Derivative Action
        %
        if(time_y-time_y_old(1))<=maxTimeBetweenSamplesforDerivative

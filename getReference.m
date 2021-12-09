@@ -1,8 +1,5 @@
 function y = getReference(delta_t,mainapp)
-    
-    % ------- ending phase ------- %
-    Y_end = 4.5;          % 81 mg/dl
-    % ---------------------------- %
+   
     % ------- hypoglycemic ------- %
     Y1_hypo = 3.885;     % 70 mg/dl
     Y2_hypo = 2.775;     % 50 mg/dl
@@ -11,11 +8,12 @@ function y = getReference(delta_t,mainapp)
     T2_hypo = 55;
     T3_hypo = 70;
     % ---------------------------- %
-    % -------- euglycemic -------- %
-    Y_eu = 5.5;           % 99 mg/dl
+    % ----------- else ----------- %
+    Y_plateau = mainapp.protocol.refPlateau;
     % ---------------------------- %
-    % -------- euglycemic -------- %
-    Y_hyper = 12.4;       % 225 mg/dl
+
+    % ------- ending phase ------- %
+    Y_end = 4.5;          % 81 mg/dl
     % ---------------------------- %
     
     switch mainapp.ExperimentStatus
@@ -39,10 +37,8 @@ function y = getReference(delta_t,mainapp)
                     else
                         y = Y3_hypo;
                     end
-                case 'euglycemic'
-                    y = Y_eu;
-                case 'hyperglycemic' 
-                    y = Y_hyper;
+                otherwise
+                    y = Y_plateau;
             end
         case 'control2eu'
             y = Y_end;

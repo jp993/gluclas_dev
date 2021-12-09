@@ -29,6 +29,10 @@ classdef Protocol < handle
         function y = getClampType(obj)
             y = obj.clampType;
         end
+
+        function y = getPlateauValue(obj)
+            y = obj.refPlateau;
+        end        
         
         function y = getInsBolus(obj,BW)
             ibolus = obj.insBolus;

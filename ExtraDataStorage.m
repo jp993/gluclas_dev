@@ -7,6 +7,7 @@ classdef ExtraDataStorage < handle
     
     methods 
         function obj = ExtraDataStorage()
+
             oralGlucose.time = [];
             oralGlucose.value = [];
             obj.oralGlucose = oralGlucose;

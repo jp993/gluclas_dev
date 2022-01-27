@@ -19,7 +19,7 @@ function y = getReference(delta_t,mainapp)
     switch mainapp.ExperimentStatus
         case 'control2ref'
             switch mainapp.protocol.getClampType
-                case 'hypoglycemic'
+                case 'Hypoglycemic'
                     if delta_t<T1_hypo
                         y = Y1_hypo;
                     elseif delta_t<T2_hypo
